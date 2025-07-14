@@ -58,8 +58,12 @@ const Auth = () => {
     e.preventDefault();
     setLoading(true);
 
+    // Get role from URL params if available
+    const params = new URLSearchParams(window.location.search);
+    const role = params.get('role') || 'user';
+
     try {
-      const { error } = await signUp(email, password);
+      const { error } = await signUp(email, password, role);
       
       if (error) {
         if (error.message.includes('already registered')) {

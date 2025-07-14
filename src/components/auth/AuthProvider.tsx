@@ -8,9 +8,15 @@ interface UserProfile {
   email: string;
   first_name?: string;
   last_name?: string;
+  phone?: string;
   total_points: number;
   referral_code: string;
+  referrals_made: number;
   role: 'user' | 'merchant' | 'admin';
+  bank_name?: string;
+  card_linked: boolean;
+  masked_account?: string;
+  plaid_access_token?: string;
 }
 
 interface AuthContextType {
@@ -49,7 +55,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         .single();
       
       if (error) throw error;
-      setProfile({ ...data, role: data.role || 'user' });
+      setProfile({ ...data, role: (data.role as 'user' | 'merchant' | 'admin') || 'user' });
     } catch (error) {
       console.error('Error fetching user profile:', error);
       setProfile(null);

@@ -15,7 +15,7 @@ import {
 } from 'lucide-react';
 
 export const Navigation = () => {
-  const { user, signOut } = useAuth();
+  const { user, profile, signOut } = useAuth();
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -26,17 +26,16 @@ export const Navigation = () => {
     { label: 'Logo Contest', path: '/logo-contest', icon: Trophy },
   ];
 
-  const userNavItems = user ? [
+  const userNavItems = user && profile?.role === 'user' ? [
     { label: 'Dashboard', path: '/dashboard', icon: CreditCard },
-    { label: 'Rewards', path: '/rewards', icon: Trophy },
   ] : [];
 
-  const merchantNavItems = user ? [
-    { label: 'Merchant', path: '/merchant', icon: Store },
+  const merchantNavItems = user && profile?.role === 'merchant' ? [
+    { label: 'Merchant Dashboard', path: '/merchant', icon: Store },
   ] : [];
 
-  const adminNavItems = user ? [
-    { label: 'Admin', path: '/admin', icon: Shield },
+  const adminNavItems = user && profile?.role === 'admin' ? [
+    { label: 'Admin Dashboard', path: '/admin', icon: Shield },
   ] : [];
 
   const handleSignOut = async () => {

@@ -219,6 +219,57 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Merchant Signup Section */}
+      <section className="py-24 bg-primary/5">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="space-y-8">
+            <div className="w-16 h-16 bg-gradient-secondary rounded-2xl flex items-center justify-center mx-auto">
+              <Store className="w-8 h-8 text-white" />
+            </div>
+            
+            <h2 className="text-3xl lg:text-4xl font-bold text-foreground">
+              Join as a Partner Merchant
+            </h2>
+            
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              Grow your business with District Wallet. Attract new customers, 
+              increase loyalty, and get valuable insights about your customers.
+            </p>
+            
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link to="/auth?role=merchant">
+                <Button variant="hero" size="lg">
+                  <Store className="w-5 h-5 mr-2" />
+                  Apply as Merchant
+                </Button>
+              </Link>
+              <Button variant="outline" size="lg">
+                <Shield className="w-5 h-5 mr-2" />
+                Schedule Demo
+              </Button>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+              <div className="text-center">
+                <CheckCircle className="w-8 h-8 text-green-500 mx-auto mb-3" />
+                <h3 className="font-semibold mb-2">Easy Setup</h3>
+                <p className="text-sm text-muted-foreground">Get started in minutes with our simple onboarding process</p>
+              </div>
+              <div className="text-center">
+                <TrendingUp className="w-8 h-8 text-blue-500 mx-auto mb-3" />
+                <h3 className="font-semibold mb-2">Grow Revenue</h3>
+                <p className="text-sm text-muted-foreground">Attract new customers and increase repeat visits</p>
+              </div>
+              <div className="text-center">
+                <Users className="w-8 h-8 text-purple-500 mx-auto mb-3" />
+                <h3 className="font-semibold mb-2">Customer Insights</h3>
+                <p className="text-sm text-muted-foreground">Understand your customers better with detailed analytics</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Testimonials */}
       <section className="py-24 bg-muted/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
