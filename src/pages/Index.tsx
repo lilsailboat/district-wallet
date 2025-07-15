@@ -17,6 +17,7 @@ import {
   Heart,
   MapPin
 } from 'lucide-react';
+import { DemoModal } from '@/components/demo/DemoModal';
 
 const Index = () => {
   const features = [
@@ -106,10 +107,12 @@ const Index = () => {
                   Join District Wallet
                 </Button>
               </Link>
-              <Button variant="outline" size="xl" className="border-white/30 text-white hover:bg-white/10">
-                <Store className="w-5 h-5 mr-2" />
-                Become a Partner
-              </Button>
+              <Link to="/auth?role=merchant">
+                <Button variant="outline" size="xl" className="border-white/30 text-white hover:bg-white/10">
+                  <Store className="w-5 h-5 mr-2" />
+                  Become a Partner
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
@@ -243,10 +246,7 @@ const Index = () => {
                   Apply as Merchant
                 </Button>
               </Link>
-              <Button variant="outline" size="lg">
-                <Shield className="w-5 h-5 mr-2" />
-                Schedule Demo
-              </Button>
+              <DemoModal />
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">

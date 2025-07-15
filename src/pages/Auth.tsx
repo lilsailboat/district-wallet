@@ -106,15 +106,22 @@ const Auth = () => {
         </Link>
 
         {/* Logo */}
-        <div className="text-center">
-          <div className="flex justify-center mb-4">
-            <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center">
-              <CreditCard className="w-6 h-6 text-white" />
+          <div className="text-center">
+            <div className="flex justify-center mb-4">
+              <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center">
+                <CreditCard className="w-6 h-6 text-white" />
+              </div>
+            </div>
+            <h1 className="text-2xl font-bold text-white">District Wallet</h1>
+            <p className="text-white/80">Join the community loyalty revolution</p>
+            
+            {/* Admin Login Hint */}
+            <div className="mt-4 p-3 bg-white/10 rounded-lg">
+              <p className="text-xs text-white/70">
+                Admin Login: admin@districtwalletdc.com / admin123
+              </p>
             </div>
           </div>
-          <h1 className="text-2xl font-bold text-white">District Wallet</h1>
-          <p className="text-white/80">Join the community loyalty revolution</p>
-        </div>
 
         <Card className="bg-white/95 backdrop-blur-sm border-white/20 shadow-glow">
           <CardHeader className="text-center">

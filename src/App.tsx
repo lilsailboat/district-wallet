@@ -10,6 +10,7 @@ import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
 import MerchantDashboard from "./pages/MerchantDashboard";
+import MerchantSignup from "./pages/MerchantSignup";
 import AdminDashboard from "./pages/AdminDashboard";
 import LogoContest from "./pages/LogoContest";
 import NotFound from "./pages/NotFound";
@@ -29,6 +30,7 @@ const App = () => (
               <Route path="/" element={<Index />} />
               <Route path="/auth" element={<Auth />} />
               <Route path="/logo-contest" element={<LogoContest />} />
+              <Route path="/merchant-signup" element={<MerchantSignup />} />
               <Route 
                 path="/dashboard" 
                 element={
