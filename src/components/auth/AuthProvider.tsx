@@ -17,6 +17,7 @@ interface UserProfile {
   card_linked: boolean;
   masked_account?: string;
   plaid_access_token?: string;
+  created_at?: string;
 }
 
 interface AuthContextType {

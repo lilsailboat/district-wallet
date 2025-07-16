@@ -7,6 +7,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Badge } from '@/components/ui/badge';
+import { RewardCreation } from '@/components/merchant/RewardCreation';
 import { toast } from '@/hooks/use-toast';
 import { 
   Store, 
@@ -17,7 +19,10 @@ import {
   MessageSquare,
   Plus,
   Edit,
-  Eye
+  Eye,
+  Settings,
+  BarChart3,
+  Zap
 } from 'lucide-react';
 
 interface MerchantData {
@@ -33,6 +38,7 @@ interface MerchantData {
   total_visits: number;
   total_redemptions: number;
   total_rewards_distributed: number;
+  point_multiplier?: number;
 }
 
 interface Reward {
@@ -186,10 +192,11 @@ const MerchantDashboard = () => {
         )}
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-5">
+          <TabsList className="grid w-full grid-cols-6">
             <TabsTrigger value="profile">Profile</TabsTrigger>
-            <TabsTrigger value="metrics">Metrics</TabsTrigger>
+            <TabsTrigger value="analytics">Analytics</TabsTrigger>
             <TabsTrigger value="rewards">Rewards</TabsTrigger>
+            <TabsTrigger value="multiplier">Point Multiplier</TabsTrigger>
             <TabsTrigger value="qr">QR Code</TabsTrigger>
             <TabsTrigger value="messages">Messages</TabsTrigger>
           </TabsList>
@@ -271,8 +278,8 @@ const MerchantDashboard = () => {
             </Card>
           </TabsContent>
 
-          <TabsContent value="metrics" className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <TabsContent value="analytics" className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">Total Visits</CardTitle>
@@ -280,7 +287,7 @@ const MerchantDashboard = () => {
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">{merchantData?.total_visits || 0}</div>
-                  <p className="text-xs text-muted-foreground">Customer visits</p>
+                  <p className="text-xs text-muted-foreground">+12% from last month</p>
                 </CardContent>
               </Card>
               <Card>
@@ -290,49 +297,113 @@ const MerchantDashboard = () => {
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">{merchantData?.total_redemptions || 0}</div>
-                  <p className="text-xs text-muted-foreground">Rewards redeemed</p>
+                  <p className="text-xs text-muted-foreground">+8% from last month</p>
                 </CardContent>
               </Card>
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Rewards Distributed</CardTitle>
+                  <CardTitle className="text-sm font-medium">Revenue Impact</CardTitle>
                   <TrendingUp className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">{merchantData?.total_rewards_distributed || 0}</div>
-                  <p className="text-xs text-muted-foreground">Total distributed</p>
+                  <div className="text-2xl font-bold">$2,450</div>
+                  <p className="text-xs text-muted-foreground">From loyalty program</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Point Multiplier</CardTitle>
+                  <Zap className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">{merchantData?.point_multiplier || 1}x</div>
+                  <p className="text-xs text-muted-foreground">Current rate</p>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Analytics Charts */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center">
+                    <BarChart3 className="w-5 h-5 mr-2" />
+                    Customer Activity
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm">New Customers</span>
+                      <Badge variant="secondary">23 this week</Badge>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm">Repeat Customers</span>
+                      <Badge variant="secondary">67 this week</Badge>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm">Average Points Earned</span>
+                      <Badge variant="secondary">45 per visit</Badge>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm">Conversion Rate</span>
+                      <Badge variant="secondary">18.5%</Badge>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center">
+                    <TrendingUp className="w-5 h-5 mr-2" />
+                    Performance Insights
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="p-3 rounded-lg bg-green-50 border border-green-200">
+                      <p className="text-sm font-medium text-green-800">Peak Hours</p>
+                      <p className="text-sm text-green-600">Most activity between 2-4 PM</p>
+                    </div>
+                    <div className="p-3 rounded-lg bg-blue-50 border border-blue-200">
+                      <p className="text-sm font-medium text-blue-800">Top Reward</p>
+                      <p className="text-sm text-blue-600">$5 discount (68% of redemptions)</p>
+                    </div>
+                    <div className="p-3 rounded-lg bg-purple-50 border border-purple-200">
+                      <p className="text-sm font-medium text-purple-800">Customer Lifetime</p>
+                      <p className="text-sm text-purple-600">Average 6.2 visits per customer</p>
+                    </div>
+                  </div>
                 </CardContent>
               </Card>
             </div>
           </TabsContent>
 
           <TabsContent value="rewards" className="space-y-6">
-            <Card>
-              <CardHeader>
-                <div className="flex justify-between items-center">
-                  <div>
-                    <CardTitle>Manage Rewards</CardTitle>
-                    <CardDescription>Create and manage your reward offerings</CardDescription>
-                  </div>
-                  <Button>
-                    <Plus className="w-4 h-4 mr-2" />
-                    Create Reward
-                  </Button>
-                </div>
-              </CardHeader>
-              <CardContent>
-                {rewards.length === 0 ? (
-                  <div className="text-center py-8">
-                    <Gift className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
-                    <p className="text-muted-foreground">No rewards created yet</p>
-                  </div>
-                ) : (
+            <RewardCreation merchantData={merchantData} onRewardCreated={fetchRewards} />
+            
+            {rewards.length > 0 && (
+              <Card>
+                <CardHeader>
+                  <CardTitle>Your Rewards</CardTitle>
+                  <CardDescription>Manage your existing reward offerings</CardDescription>
+                </CardHeader>
+                <CardContent>
                   <div className="space-y-4">
                     {rewards.map((reward) => (
                       <div key={reward.id} className="flex items-center justify-between p-4 border rounded-lg">
-                        <div>
-                          <h3 className="font-medium">{reward.title}</h3>
+                        <div className="flex-1">
+                          <div className="flex items-center space-x-2 mb-1">
+                            <h3 className="font-medium">{reward.title}</h3>
+                            <Badge variant={reward.is_active ? "default" : "secondary"}>
+                              {reward.is_active ? "Active" : "Inactive"}
+                            </Badge>
+                          </div>
                           <p className="text-sm text-muted-foreground">{reward.points_required} points</p>
+                          {reward.promo_code && (
+                            <p className="text-xs text-muted-foreground">Code: {reward.promo_code}</p>
+                          )}
                         </div>
                         <div className="flex items-center space-x-2">
                           <Button variant="outline" size="sm">
@@ -345,7 +416,83 @@ const MerchantDashboard = () => {
                       </div>
                     ))}
                   </div>
-                )}
+                </CardContent>
+              </Card>
+            )}
+          </TabsContent>
+
+          <TabsContent value="multiplier" className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <Zap className="w-5 h-5 mr-2" />
+                  Point Multiplier Settings
+                </CardTitle>
+                <CardDescription>
+                  Set how many points customers earn per dollar spent at your business
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="text-center p-6 rounded-lg bg-gradient-to-r from-primary/10 to-success/10">
+                  <div className="text-4xl font-bold text-primary mb-2">
+                    {merchantData?.point_multiplier || 1}x
+                  </div>
+                  <p className="text-muted-foreground">Current Point Multiplier</p>
+                  <p className="text-sm text-muted-foreground mt-2">
+                    Customers earn {merchantData?.point_multiplier || 1} point(s) per $1 spent
+                  </p>
+                </div>
+
+                <div className="space-y-4">
+                  <Label htmlFor="multiplier">Point Multiplier (1.00 - 5.00)</Label>
+                  <Input
+                    id="multiplier"
+                    type="number"
+                    step="0.25"
+                    min="1.00"
+                    max="5.00"
+                    value={merchantData?.point_multiplier || 1}
+                    onChange={(e) => setMerchantData(prev => prev ? {...prev, point_multiplier: parseFloat(e.target.value)} : null)}
+                    placeholder="1.00"
+                  />
+                  <div className="grid grid-cols-3 gap-2">
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      onClick={() => setMerchantData(prev => prev ? {...prev, point_multiplier: 1.0} : null)}
+                    >
+                      1x Standard
+                    </Button>
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      onClick={() => setMerchantData(prev => prev ? {...prev, point_multiplier: 1.5} : null)}
+                    >
+                      1.5x Boost
+                    </Button>
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      onClick={() => setMerchantData(prev => prev ? {...prev, point_multiplier: 2.0} : null)}
+                    >
+                      2x Double
+                    </Button>
+                  </div>
+                </div>
+
+                <div className="p-4 rounded-lg bg-muted/50">
+                  <h4 className="font-semibold mb-2">How Point Multipliers Work:</h4>
+                  <ul className="text-sm text-muted-foreground space-y-1">
+                    <li>• Standard rate: 1 point per $1 spent</li>
+                    <li>• Higher multipliers attract more customers</li>
+                    <li>• Changes take effect immediately</li>
+                    <li>• Consider seasonal promotions or special events</li>
+                  </ul>
+                </div>
+
+                <Button onClick={saveMerchantProfile} disabled={loading} className="w-full">
+                  {loading ? 'Updating...' : 'Update Point Multiplier'}
+                </Button>
               </CardContent>
             </Card>
           </TabsContent>

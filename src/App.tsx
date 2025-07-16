@@ -8,6 +8,7 @@ import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import { Navigation } from "@/components/layout/Navigation";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
+import MerchantAuth from "./pages/MerchantAuth";
 import Dashboard from "./pages/Dashboard";
 import MerchantDashboard from "./pages/MerchantDashboard";
 import MerchantSignup from "./pages/MerchantSignup";
@@ -29,6 +30,7 @@ const App = () => (
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/auth" element={<Auth />} />
+              <Route path="/merchant-auth" element={<MerchantAuth />} />
               <Route path="/logo-contest" element={<LogoContest />} />
               <Route path="/merchant-signup" element={<MerchantSignup />} />
               <Route 

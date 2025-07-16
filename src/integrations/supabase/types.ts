@@ -62,6 +62,7 @@ export type Database = {
           is_approved: boolean | null
           logo_url: string | null
           phone: string | null
+          point_multiplier: number | null
           pos_system: string | null
           qr_code: string | null
           total_redemptions: number | null
@@ -82,6 +83,7 @@ export type Database = {
           is_approved?: boolean | null
           logo_url?: string | null
           phone?: string | null
+          point_multiplier?: number | null
           pos_system?: string | null
           qr_code?: string | null
           total_redemptions?: number | null
@@ -102,6 +104,7 @@ export type Database = {
           is_approved?: boolean | null
           logo_url?: string | null
           phone?: string | null
+          point_multiplier?: number | null
           pos_system?: string | null
           qr_code?: string | null
           total_redemptions?: number | null
@@ -170,6 +173,70 @@ export type Database = {
         }
         Relationships: []
       }
+      promo_codes: {
+        Row: {
+          code: string
+          created_at: string | null
+          expires_at: string | null
+          id: string
+          is_used: boolean | null
+          merchant_id: string | null
+          pos_sync_status: string | null
+          reward_id: string | null
+          updated_at: string | null
+          used_at: string | null
+          used_by: string | null
+        }
+        Insert: {
+          code: string
+          created_at?: string | null
+          expires_at?: string | null
+          id?: string
+          is_used?: boolean | null
+          merchant_id?: string | null
+          pos_sync_status?: string | null
+          reward_id?: string | null
+          updated_at?: string | null
+          used_at?: string | null
+          used_by?: string | null
+        }
+        Update: {
+          code?: string
+          created_at?: string | null
+          expires_at?: string | null
+          id?: string
+          is_used?: boolean | null
+          merchant_id?: string | null
+          pos_sync_status?: string | null
+          reward_id?: string | null
+          updated_at?: string | null
+          used_at?: string | null
+          used_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "promo_codes_merchant_id_fkey"
+            columns: ["merchant_id"]
+            isOneToOne: false
+            referencedRelation: "merchants"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "promo_codes_reward_id_fkey"
+            columns: ["reward_id"]
+            isOneToOne: false
+            referencedRelation: "rewards"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "promo_codes_used_by_fkey"
+            columns: ["used_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
       redemptions: {
         Row: {
           expires_at: string | null
@@ -210,6 +277,36 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      referral_bonuses: {
+        Row: {
+          bonus_points: number | null
+          completed_at: string | null
+          created_at: string | null
+          id: string
+          referee_id: string
+          referrer_id: string
+          status: string | null
+        }
+        Insert: {
+          bonus_points?: number | null
+          completed_at?: string | null
+          created_at?: string | null
+          id?: string
+          referee_id: string
+          referrer_id: string
+          status?: string | null
+        }
+        Update: {
+          bonus_points?: number | null
+          completed_at?: string | null
+          created_at?: string | null
+          id?: string
+          referee_id?: string
+          referrer_id?: string
+          status?: string | null
+        }
+        Relationships: []
       }
       referrals: {
         Row: {

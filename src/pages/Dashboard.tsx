@@ -1,7 +1,13 @@
+import { useState } from 'react';
 import { useAuth } from '@/components/auth/AuthProvider';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { UserProfile } from '@/components/user/UserProfile';
+import { ReferralSystem } from '@/components/referral/ReferralSystem';
+import { PlaidLink } from '@/components/plaid/PlaidLink';
+import { RewardCatalog } from '@/components/rewards/RewardCatalog';
 import { 
   CreditCard, 
   TrendingUp, 
@@ -10,12 +16,15 @@ import {
   Calendar,
   MapPin,
   DollarSign,
-  ExternalLink
+  ExternalLink,
+  User,
+  Settings
 } from 'lucide-react';
 import { Navigate } from 'react-router-dom';
 
 const Dashboard = () => {
   const { user, loading } = useAuth();
+  const [activeDialog, setActiveDialog] = useState<string | null>(null);
 
   if (loading) {
     return (
@@ -54,13 +63,29 @@ const Dashboard = () => {
     <div className="min-h-screen bg-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground mb-2">
-            Welcome back! 👋
-          </h1>
-          <p className="text-muted-foreground">
-            Here's what's happening with your rewards account
-          </p>
+        <div className="mb-8 flex justify-between items-start">
+          <div>
+            <h1 className="text-3xl font-bold text-foreground mb-2">
+              Welcome back! 👋
+            </h1>
+            <p className="text-muted-foreground">
+              Here's what's happening with your rewards account
+            </p>
+          </div>
+          <Dialog open={activeDialog === 'profile'} onOpenChange={(open) => setActiveDialog(open ? 'profile' : null)}>
+            <DialogTrigger asChild>
+              <Button variant="outline" className="flex items-center">
+                <User className="w-4 h-4 mr-2" />
+                Profile
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+              <DialogHeader>
+                <DialogTitle>User Profile</DialogTitle>
+              </DialogHeader>
+              <UserProfile />
+            </DialogContent>
+          </Dialog>
         </div>
 
         {/* Stats Cards */}
@@ -218,18 +243,50 @@ const Dashboard = () => {
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <Button variant="fintech" className="h-20 flex-col">
-                <Users className="w-6 h-6 mb-2" />
-                Refer Friends
-              </Button>
-              <Button variant="fintech" className="h-20 flex-col">
-                <CreditCard className="w-6 h-6 mb-2" />
-                Link Bank Account
-              </Button>
-              <Button variant="fintech" className="h-20 flex-col">
-                <MapPin className="w-6 h-6 mb-2" />
-                Find Merchants
-              </Button>
+              <Dialog open={activeDialog === 'referral'} onOpenChange={(open) => setActiveDialog(open ? 'referral' : null)}>
+                <DialogTrigger asChild>
+                  <Button variant="fintech" className="h-20 flex-col">
+                    <Users className="w-6 h-6 mb-2" />
+                    Refer Friends
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="max-w-2xl">
+                  <DialogHeader>
+                    <DialogTitle>Refer Friends</DialogTitle>
+                  </DialogHeader>
+                  <ReferralSystem />
+                </DialogContent>
+              </Dialog>
+
+              <Dialog open={activeDialog === 'plaid'} onOpenChange={(open) => setActiveDialog(open ? 'plaid' : null)}>
+                <DialogTrigger asChild>
+                  <Button variant="fintech" className="h-20 flex-col">
+                    <CreditCard className="w-6 h-6 mb-2" />
+                    Link Bank Account
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="max-w-lg">
+                  <DialogHeader>
+                    <DialogTitle>Link Bank Account</DialogTitle>
+                  </DialogHeader>
+                  <PlaidLink />
+                </DialogContent>
+              </Dialog>
+
+              <Dialog open={activeDialog === 'rewards'} onOpenChange={(open) => setActiveDialog(open ? 'rewards' : null)}>
+                <DialogTrigger asChild>
+                  <Button variant="fintech" className="h-20 flex-col">
+                    <Gift className="w-6 h-6 mb-2" />
+                    Browse Rewards
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+                  <DialogHeader>
+                    <DialogTitle>All Rewards</DialogTitle>
+                  </DialogHeader>
+                  <RewardCatalog />
+                </DialogContent>
+              </Dialog>
             </div>
           </CardContent>
         </Card>

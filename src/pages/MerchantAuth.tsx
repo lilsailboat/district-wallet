@@ -7,18 +7,24 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { toast } from '@/hooks/use-toast';
-import { CreditCard, Mail, Lock, ArrowLeft } from 'lucide-react';
+import { Store, Mail, Lock, ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-const Auth = () => {
+const MerchantAuth = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const { signIn, signUp, user } = useAuth();
+  const { signIn, signUp, user, profile } = useAuth();
   const navigate = useNavigate();
 
-  // Redirect if already authenticated
-  if (user) {
+  // Redirect if already authenticated as merchant
+  if (user && profile?.role === 'merchant') {
+    navigate('/merchant');
+    return null;
+  }
+
+  // Redirect if already authenticated as non-merchant
+  if (user && profile?.role !== 'merchant') {
     navigate('/dashboard');
     return null;
   }
@@ -41,7 +47,7 @@ const Auth = () => {
           title: "Welcome back!",
           description: "You've been signed in successfully.",
         });
-        navigate('/dashboard');
+        navigate('/merchant');
       }
     } catch (error) {
       toast({
@@ -58,12 +64,8 @@ const Auth = () => {
     e.preventDefault();
     setLoading(true);
 
-    // Get role from URL params if available
-    const params = new URLSearchParams(window.location.search);
-    const role = params.get('role') || 'user';
-
     try {
-      const { error } = await signUp(email, password, role);
+      const { error } = await signUp(email, password, 'merchant');
       
       if (error) {
         if (error.message.includes('already registered')) {
@@ -82,7 +84,7 @@ const Auth = () => {
       } else {
         toast({
           title: "Account created!",
-          description: "Please check your email to confirm your account.",
+          description: "Please check your email to confirm your account, then complete your merchant profile.",
         });
       }
     } catch (error) {
@@ -106,22 +108,21 @@ const Auth = () => {
         </Link>
 
         {/* Logo */}
-          <div className="text-center">
-            <div className="flex justify-center mb-4">
-              <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center">
-                <CreditCard className="w-6 h-6 text-white" />
-              </div>
+        <div className="text-center">
+          <div className="flex justify-center mb-4">
+            <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center">
+              <Store className="w-6 h-6 text-white" />
             </div>
-            <h1 className="text-2xl font-bold text-white">District Wallet</h1>
-            <p className="text-white/80">Join the community loyalty revolution</p>
-            
           </div>
+          <h1 className="text-2xl font-bold text-white">Merchant Portal</h1>
+          <p className="text-white/80">Join District Wallet as a partner merchant</p>
+        </div>
 
         <Card className="bg-white/95 backdrop-blur-sm border-white/20 shadow-glow">
           <CardHeader className="text-center">
-            <CardTitle className="text-xl font-semibold">Welcome</CardTitle>
+            <CardTitle className="text-xl font-semibold">Merchant Access</CardTitle>
             <CardDescription>
-              Sign in to your account or create a new one
+              Sign in to your merchant account or create a new one
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -134,13 +135,13 @@ const Auth = () => {
               <TabsContent value="signin" className="space-y-4">
                 <form onSubmit={handleSignIn} className="space-y-4">
                   <div className="space-y-2">
-                    <Label htmlFor="signin-email">Email</Label>
+                    <Label htmlFor="signin-email">Business Email</Label>
                     <div className="relative">
                       <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                       <Input
                         id="signin-email"
                         type="email"
-                        placeholder="Enter your email"
+                        placeholder="Enter your business email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         className="pl-10"
@@ -172,7 +173,7 @@ const Auth = () => {
                     size="lg"
                     disabled={loading}
                   >
-                    {loading ? 'Signing In...' : 'Sign In'}
+                    {loading ? 'Signing In...' : 'Access Merchant Dashboard'}
                   </Button>
                 </form>
               </TabsContent>
@@ -180,13 +181,13 @@ const Auth = () => {
               <TabsContent value="signup" className="space-y-4">
                 <form onSubmit={handleSignUp} className="space-y-4">
                   <div className="space-y-2">
-                    <Label htmlFor="signup-email">Email</Label>
+                    <Label htmlFor="signup-email">Business Email</Label>
                     <div className="relative">
                       <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                       <Input
                         id="signup-email"
                         type="email"
-                        placeholder="Enter your email"
+                        placeholder="Enter your business email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         className="pl-10"
@@ -219,14 +220,14 @@ const Auth = () => {
                     size="lg"
                     disabled={loading}
                   >
-                    {loading ? 'Creating Account...' : 'Create Account'}
+                    {loading ? 'Creating Account...' : 'Create Merchant Account'}
                   </Button>
                 </form>
               </TabsContent>
             </Tabs>
 
             <div className="mt-6 text-center text-sm text-muted-foreground">
-              <p>By signing up, you agree to our Terms of Service and Privacy Policy</p>
+              <p>By signing up, you agree to our Merchant Terms of Service</p>
             </div>
           </CardContent>
         </Card>
@@ -235,4 +236,4 @@ const Auth = () => {
   );
 };
 
-export default Auth;
+export default MerchantAuth;
