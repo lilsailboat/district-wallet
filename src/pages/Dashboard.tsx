@@ -262,12 +262,12 @@ const Dashboard = () => {
                 <DialogTrigger asChild>
                   <Button variant="fintech" className="h-20 flex-col">
                     <CreditCard className="w-6 h-6 mb-2" />
-                    Link Bank Account
+                    Manage Bank Account
                   </Button>
                 </DialogTrigger>
                 <DialogContent className="max-w-lg">
                   <DialogHeader>
-                    <DialogTitle>Link Bank Account</DialogTitle>
+                    <DialogTitle>Bank Account Management</DialogTitle>
                   </DialogHeader>
                   <PlaidLink />
                 </DialogContent>

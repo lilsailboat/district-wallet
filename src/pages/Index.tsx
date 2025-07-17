@@ -107,7 +107,7 @@ const Index = () => {
                   Join District Wallet
                 </Button>
               </Link>
-              <Link to="/auth?role=merchant">
+              <Link to="/merchant-auth">
                 <Button variant="hero" size="xl" className="animate-glow">
                   <Store className="w-5 h-5 mr-2" />
                   Become a Partner
@@ -240,7 +240,7 @@ const Index = () => {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/auth?role=merchant">
+              <Link to="/merchant-auth">
                 <Button variant="hero" size="lg">
                   <Store className="w-5 h-5 mr-2" />
                   Apply as Merchant
@@ -314,15 +314,35 @@ const Index = () => {
           <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
             Join thousands of DC residents who are already earning points and supporting local businesses.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/auth">
-              <Button variant="hero" size="xl" className="bg-white text-primary hover:bg-white/90">
-                <CreditCard className="w-5 h-5 mr-2" />
-                Get Started Today
-                <ArrowRight className="w-5 h-5 ml-2" />
-              </Button>
-            </Link>
-          </div>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link to="/auth">
+                <Button variant="hero" size="xl" className="bg-white text-primary hover:bg-white/90">
+                  <CreditCard className="w-5 h-5 mr-2" />
+                  Get Started Today
+                  <ArrowRight className="w-5 h-5 ml-2" />
+                </Button>
+              </Link>
+            </div>
+            
+            {/* Terms and Privacy Links */}
+            <div className="flex justify-center space-x-6 mt-8 pt-8 border-t border-white/20">
+              <a 
+                href="/terms" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-sm text-white/80 hover:text-white transition-colors underline"
+              >
+                Terms and Conditions
+              </a>
+              <a 
+                href="/privacy" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-sm text-white/80 hover:text-white transition-colors underline"
+              >
+                Privacy Policy
+              </a>
+            </div>
         </div>
       </section>
     </div>

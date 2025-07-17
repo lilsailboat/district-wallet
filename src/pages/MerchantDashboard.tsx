@@ -8,6 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { RewardCreation } from '@/components/merchant/RewardCreation';
 import { toast } from '@/hooks/use-toast';
 import { 
@@ -22,7 +23,8 @@ import {
   Eye,
   Settings,
   BarChart3,
-  Zap
+  Zap,
+  Link
 } from 'lucide-react';
 
 interface MerchantData {
@@ -34,6 +36,7 @@ interface MerchantData {
   business_address?: string;
   description?: string;
   logo_url?: string;
+  pos_system?: string;
   is_approved: boolean;
   total_visits: number;
   total_redemptions: number;
@@ -192,10 +195,11 @@ const MerchantDashboard = () => {
         )}
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-6">
+          <TabsList className="grid w-full grid-cols-7">
             <TabsTrigger value="profile">Profile</TabsTrigger>
             <TabsTrigger value="analytics">Analytics</TabsTrigger>
             <TabsTrigger value="rewards">Rewards</TabsTrigger>
+            <TabsTrigger value="pos">POS Integration</TabsTrigger>
             <TabsTrigger value="multiplier">Point Multiplier</TabsTrigger>
             <TabsTrigger value="qr">QR Code</TabsTrigger>
             <TabsTrigger value="messages">Messages</TabsTrigger>
@@ -250,6 +254,23 @@ const MerchantDashboard = () => {
                       onChange={(e) => setMerchantData(prev => prev ? {...prev, website: e.target.value} : null)}
                       placeholder="Enter website URL"
                     />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="pos_system">POS System</Label>
+                    <Select 
+                      value={merchantData?.pos_system || ''} 
+                      onValueChange={(value) => setMerchantData(prev => prev ? {...prev, pos_system: value} : null)}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select your POS system" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="square">Square</SelectItem>
+                        <SelectItem value="clover">Clover</SelectItem>
+                        <SelectItem value="lightspeed">Lightspeed</SelectItem>
+                        <SelectItem value="other">Other</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
                 </div>
                 <div className="space-y-2">
@@ -419,6 +440,108 @@ const MerchantDashboard = () => {
                 </CardContent>
               </Card>
             )}
+          </TabsContent>
+
+          <TabsContent value="pos" className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <Link className="w-5 h-5 mr-2" />
+                  POS System Integration
+                </CardTitle>
+                <CardDescription>
+                  Connect your Point of Sale system to automatically sync rewards and promo codes
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <Card className="border-2 hover:border-primary/50 transition-colors cursor-pointer">
+                    <CardContent className="p-6 text-center">
+                      <div className="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                        <Store className="w-8 h-8 text-blue-600" />
+                      </div>
+                      <h3 className="font-semibold mb-2">Square</h3>
+                      <p className="text-sm text-muted-foreground mb-4">
+                        Most popular POS system for small businesses
+                      </p>
+                      <Badge variant={merchantData?.pos_system === 'square' ? 'default' : 'secondary'}>
+                        {merchantData?.pos_system === 'square' ? 'Connected' : 'Connect'}
+                      </Badge>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="border-2 hover:border-primary/50 transition-colors cursor-pointer">
+                    <CardContent className="p-6 text-center">
+                      <div className="w-16 h-16 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                        <Store className="w-8 h-8 text-green-600" />
+                      </div>
+                      <h3 className="font-semibold mb-2">Clover</h3>
+                      <p className="text-sm text-muted-foreground mb-4">
+                        Full-featured POS with advanced analytics
+                      </p>
+                      <Badge variant={merchantData?.pos_system === 'clover' ? 'default' : 'secondary'}>
+                        {merchantData?.pos_system === 'clover' ? 'Connected' : 'Connect'}
+                      </Badge>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="border-2 hover:border-primary/50 transition-colors cursor-pointer">
+                    <CardContent className="p-6 text-center">
+                      <div className="w-16 h-16 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                        <Store className="w-8 h-8 text-purple-600" />
+                      </div>
+                      <h3 className="font-semibold mb-2">Lightspeed</h3>
+                      <p className="text-sm text-muted-foreground mb-4">
+                        Cloud-based POS for retail and restaurants
+                      </p>
+                      <Badge variant={merchantData?.pos_system === 'lightspeed' ? 'default' : 'secondary'}>
+                        {merchantData?.pos_system === 'lightspeed' ? 'Connected' : 'Connect'}
+                      </Badge>
+                    </CardContent>
+                  </Card>
+                </div>
+
+                {merchantData?.pos_system && (
+                  <div className="p-4 rounded-lg bg-green-50 border border-green-200">
+                    <div className="flex items-center space-x-2 mb-2">
+                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                      <p className="font-medium text-green-800">
+                        {merchantData.pos_system.charAt(0).toUpperCase() + merchantData.pos_system.slice(1)} Connected
+                      </p>
+                    </div>
+                    <p className="text-sm text-green-600">
+                      Your promo codes will automatically sync with your POS system when customers redeem rewards.
+                    </p>
+                  </div>
+                )}
+
+                <div className="space-y-4">
+                  <h4 className="font-semibold">Integration Benefits:</h4>
+                  <ul className="space-y-2 text-sm text-muted-foreground">
+                    <li className="flex items-center">
+                      <div className="w-2 h-2 bg-primary rounded-full mr-3"></div>
+                      Automatic promo code validation at checkout
+                    </li>
+                    <li className="flex items-center">
+                      <div className="w-2 h-2 bg-primary rounded-full mr-3"></div>
+                      Real-time reward redemption tracking
+                    </li>
+                    <li className="flex items-center">
+                      <div className="w-2 h-2 bg-primary rounded-full mr-3"></div>
+                      Seamless customer experience
+                    </li>
+                    <li className="flex items-center">
+                      <div className="w-2 h-2 bg-primary rounded-full mr-3"></div>
+                      Detailed analytics and reporting
+                    </li>
+                  </ul>
+                </div>
+
+                <Button onClick={saveMerchantProfile} disabled={loading} className="w-full">
+                  {loading ? 'Saving...' : 'Save POS Integration'}
+                </Button>
+              </CardContent>
+            </Card>
           </TabsContent>
 
           <TabsContent value="multiplier" className="space-y-6">
