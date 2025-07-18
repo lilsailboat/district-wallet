@@ -207,6 +207,12 @@ const LogoContest = () => {
                 View Gallery
               </Button>
             )}
+            <Button variant="hero" size="lg" asChild>
+              <a href="/vote-on-designs">
+                <Vote className="w-5 h-5 mr-2" />
+                Vote on Designs
+              </a>
+            </Button>
           </div>
         </div>
 

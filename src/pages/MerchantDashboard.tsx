@@ -11,13 +11,15 @@ import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { RewardCreation } from '@/components/merchant/RewardCreation';
 import { POSIntegration } from '@/components/merchant/POSIntegration';
+import { ContactSupport } from '@/components/support/ContactSupport';
+import { LeaveReview } from '@/components/feedback/LeaveReview';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { toast } from '@/hooks/use-toast';
 import { 
   Store, 
   TrendingUp, 
   Users, 
   Gift, 
-  QrCode, 
   MessageSquare,
   Plus,
   Edit,
@@ -25,7 +27,8 @@ import {
   Settings,
   BarChart3,
   Zap,
-  Link
+  Link,
+  Star
 } from 'lucide-react';
 
 interface MerchantData {
@@ -63,8 +66,9 @@ const MerchantDashboard = () => {
   const { user, profile } = useAuth();
   const [merchantData, setMerchantData] = useState<MerchantData | null>(null);
   const [rewards, setRewards] = useState<Reward[]>([]);
-  const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('profile');
+  const [activeDialog, setActiveDialog] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (user) {
@@ -201,14 +205,13 @@ const MerchantDashboard = () => {
         )}
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-7">
+          <TabsList className="grid w-full grid-cols-6">
             <TabsTrigger value="profile">Profile</TabsTrigger>
             <TabsTrigger value="analytics">Analytics</TabsTrigger>
             <TabsTrigger value="rewards">Rewards</TabsTrigger>
             <TabsTrigger value="pos">POS Integration</TabsTrigger>
             <TabsTrigger value="multiplier">Point Multiplier</TabsTrigger>
-            <TabsTrigger value="qr">QR Code</TabsTrigger>
-            <TabsTrigger value="messages">Messages</TabsTrigger>
+            <TabsTrigger value="messages">Support & Reviews</TabsTrigger>
           </TabsList>
 
           <TabsContent value="profile" className="space-y-6">
@@ -531,45 +534,76 @@ const MerchantDashboard = () => {
             </Card>
           </TabsContent>
 
-          <TabsContent value="qr" className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center">
-                  <QrCode className="w-5 h-5 mr-2" />
-                  QR Code for In-Store Redemptions
-                </CardTitle>
-                <CardDescription>
-                  Display this QR code in your store for customers to scan and redeem rewards
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="text-center">
-                <div className="w-64 h-64 mx-auto bg-muted rounded-lg flex items-center justify-center mb-4">
-                  <QrCode className="w-32 h-32 text-muted-foreground" />
-                </div>
-                <p className="text-sm text-muted-foreground">QR Code will be generated after merchant approval</p>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
           <TabsContent value="messages" className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center">
-                  <MessageSquare className="w-5 h-5 mr-2" />
-                  Support Messages
-                </CardTitle>
-                <CardDescription>
-                  Contact support for assistance
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="text-center py-8">
-                  <MessageSquare className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
-                  <p className="text-muted-foreground">No messages yet</p>
-                  <Button className="mt-4">
-                    <Plus className="w-4 h-4 mr-2" />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center">
+                    <MessageSquare className="w-5 h-5 mr-2" />
                     Contact Support
-                  </Button>
+                  </CardTitle>
+                  <CardDescription>
+                    Get help with your merchant account or technical issues
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Dialog open={activeDialog === 'support'} onOpenChange={(open) => setActiveDialog(open ? 'support' : null)}>
+                    <DialogTrigger asChild>
+                      <Button className="w-full">
+                        <MessageSquare className="w-4 h-4 mr-2" />
+                        Contact Support
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+                      <DialogHeader>
+                        <DialogTitle>Contact Support</DialogTitle>
+                      </DialogHeader>
+                      <ContactSupport onClose={() => setActiveDialog(null)} />
+                    </DialogContent>
+                  </Dialog>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center">
+                    <Star className="w-5 h-5 mr-2" />
+                    Leave a Review
+                  </CardTitle>
+                  <CardDescription>
+                    Share your experience with District Wallet merchant services
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Dialog open={activeDialog === 'review'} onOpenChange={(open) => setActiveDialog(open ? 'review' : null)}>
+                    <DialogTrigger asChild>
+                      <Button className="w-full" variant="hero">
+                        <Star className="w-4 h-4 mr-2" />
+                        Leave a Review
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+                      <DialogHeader>
+                        <DialogTitle>Leave a Review</DialogTitle>
+                      </DialogHeader>
+                      <LeaveReview onClose={() => setActiveDialog(null)} />
+                    </DialogContent>
+                  </Dialog>
+                </CardContent>
+              </Card>
+            </div>
+
+            <Card className="border-blue-200 bg-blue-50">
+              <CardContent className="p-6">
+                <div className="text-center">
+                  <h3 className="font-semibold text-blue-800 mb-2">Our Mission</h3>
+                  <p className="text-blue-600 italic text-lg mb-4">
+                    "Loyalty built for the community, by the community."
+                  </p>
+                  <p className="text-sm text-blue-600">
+                    We're building something special together. Your feedback and partnership help us create 
+                    a loyalty program that truly serves our community's needs.
+                  </p>
                 </div>
               </CardContent>
             </Card>

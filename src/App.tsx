@@ -14,6 +14,7 @@ import MerchantDashboard from "./pages/MerchantDashboard";
 import MerchantSignup from "./pages/MerchantSignup";
 import AdminDashboard from "./pages/AdminDashboard";
 import LogoContest from "./pages/LogoContest";
+import VoteOnDesigns from "./pages/VoteOnDesigns";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -32,6 +33,7 @@ const App = () => (
               <Route path="/auth" element={<Auth />} />
               <Route path="/merchant-auth" element={<MerchantAuth />} />
               <Route path="/logo-contest" element={<LogoContest />} />
+              <Route path="/vote-on-designs" element={<VoteOnDesigns />} />
               <Route path="/merchant-signup" element={<MerchantSignup />} />
               <Route 
                 path="/dashboard" 

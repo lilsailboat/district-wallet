@@ -125,10 +125,6 @@ export const Navigation = () => {
             <div className="flex items-center space-x-3">
               {user ? (
                 <div className="flex items-center space-x-3">
-                  <Button variant="ghost" size="sm">
-                    <User className="w-4 h-4 mr-2" />
-                    Profile
-                  </Button>
                   <Button variant="outline" size="sm" onClick={handleSignOut}>
                     <LogOut className="w-4 h-4 mr-2" />
                     Sign Out
@@ -190,10 +186,6 @@ export const Navigation = () => {
               <div className="pt-4 border-t border-border">
                 {user ? (
                   <div className="space-y-2">
-                    <Button variant="ghost" size="sm" className="w-full justify-start">
-                      <User className="w-4 h-4 mr-2" />
-                      Profile
-                    </Button>
                     <Button variant="outline" size="sm" className="w-full justify-start" onClick={handleSignOut}>
                       <LogOut className="w-4 h-4 mr-2" />
                       Sign Out

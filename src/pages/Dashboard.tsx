@@ -8,6 +8,8 @@ import { UserProfile } from '@/components/user/UserProfile';
 import { ReferralSystem } from '@/components/referral/ReferralSystem';
 import { PlaidLink } from '@/components/plaid/PlaidLink';
 import { RewardCatalog } from '@/components/rewards/RewardCatalog';
+import { ContactSupport } from '@/components/support/ContactSupport';
+import { LeaveReview } from '@/components/feedback/LeaveReview';
 import { 
   CreditCard, 
   TrendingUp, 
@@ -18,7 +20,9 @@ import {
   DollarSign,
   ExternalLink,
   User,
-  Settings
+  Settings,
+  MessageSquare,
+  Star
 } from 'lucide-react';
 import { Navigate } from 'react-router-dom';
 
@@ -38,7 +42,7 @@ const Dashboard = () => {
     return <Navigate to="/auth" replace />;
   }
 
-  // Mock data for demonstration
+  // Mock data for demo
   const userStats = {
     totalPoints: 2487,
     thisMonthEarned: 156,
@@ -242,7 +246,7 @@ const Dashboard = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
               <Dialog open={activeDialog === 'referral'} onOpenChange={(open) => setActiveDialog(open ? 'referral' : null)}>
                 <DialogTrigger asChild>
                   <Button variant="fintech" className="h-20 flex-col">
@@ -285,6 +289,36 @@ const Dashboard = () => {
                     <DialogTitle>All Rewards</DialogTitle>
                   </DialogHeader>
                   <RewardCatalog />
+                </DialogContent>
+              </Dialog>
+
+              <Dialog open={activeDialog === 'support'} onOpenChange={(open) => setActiveDialog(open ? 'support' : null)}>
+                <DialogTrigger asChild>
+                  <Button variant="fintech" className="h-20 flex-col">
+                    <MessageSquare className="w-6 h-6 mb-2" />
+                    Contact Support
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+                  <DialogHeader>
+                    <DialogTitle>Contact Support</DialogTitle>
+                  </DialogHeader>
+                  <ContactSupport onClose={() => setActiveDialog(null)} />
+                </DialogContent>
+              </Dialog>
+
+              <Dialog open={activeDialog === 'review'} onOpenChange={(open) => setActiveDialog(open ? 'review' : null)}>
+                <DialogTrigger asChild>
+                  <Button variant="fintech" className="h-20 flex-col">
+                    <Star className="w-6 h-6 mb-2" />
+                    Leave a Review
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+                  <DialogHeader>
+                    <DialogTitle>Leave a Review</DialogTitle>
+                  </DialogHeader>
+                  <LeaveReview onClose={() => setActiveDialog(null)} />
                 </DialogContent>
               </Dialog>
             </div>
