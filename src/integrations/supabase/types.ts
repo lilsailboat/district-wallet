@@ -63,6 +63,10 @@ export type Database = {
           logo_url: string | null
           phone: string | null
           point_multiplier: number | null
+          pos_access_token: string | null
+          pos_connected_at: string | null
+          pos_merchant_id: string | null
+          pos_refresh_token: string | null
           pos_system: string | null
           qr_code: string | null
           total_redemptions: number | null
@@ -84,6 +88,10 @@ export type Database = {
           logo_url?: string | null
           phone?: string | null
           point_multiplier?: number | null
+          pos_access_token?: string | null
+          pos_connected_at?: string | null
+          pos_merchant_id?: string | null
+          pos_refresh_token?: string | null
           pos_system?: string | null
           qr_code?: string | null
           total_redemptions?: number | null
@@ -105,6 +113,10 @@ export type Database = {
           logo_url?: string | null
           phone?: string | null
           point_multiplier?: number | null
+          pos_access_token?: string | null
+          pos_connected_at?: string | null
+          pos_merchant_id?: string | null
+          pos_refresh_token?: string | null
           pos_system?: string | null
           qr_code?: string | null
           total_redemptions?: number | null
